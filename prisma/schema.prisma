@@ -1,0 +1,76 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Schooljaar {
+  id Int @id @default(autoincrement())
+  omschrijving String
+  Periodes Periode[]
+}
+
+model Periode {
+  id Int @id @default(autoincrement())
+  schooljaarId Int
+  periode String
+  inschrijvenVanaf DateTime
+  inschrijvenTm DateTime
+  Schooljaar Schooljaar @relation(fields: [schooljaarId], references: [id])
+  Toetsen Toets[]
+  @@unique([schooljaarId, periode])
+}
+
+model Opleiding {
+  id String @id
+  Toetsen Toets[]
+  Gebruikers Gebruiker[]
+}
+
+model Toets {
+  id Int @id @default(autoincrement())
+  periodeId Int
+  opleidingId String
+  toetscode String
+  duur Int
+  omschrijving String
+  inhalen Int
+  herkansen Int
+  Periode Periode @relation(fields: [periodeId], references: [id])
+  Opleiding Opleiding @relation(fields: [opleidingId], references: [id])
+  Inschrijving Inschrijving[]
+  @@unique([periodeId, toetscode])
+}
+
+model Gebruiker {
+  id Int @id @default(autoincrement())
+  stamnummer String @unique
+  roepnaam String
+  voorletters String
+  tussenvoegsel String
+  achternaam String
+  klas String?
+  opleidingId String?
+  is_docent Int
+  Opleiding Opleiding? @relation(fields: [opleidingId], references: [id])
+  Inschrijvingen Inschrijving[] @relation("Inschrijvingen")
+  HeeftIngeschreven Inschrijving[] @relation("HeeftIngeschreven")
+}
+
+model Inschrijving {
+  id Int @id @default(autoincrement())
+  gebruikerId Int
+  toetsId Int
+  type String // -- I of H
+  inschrijfDatum DateTime @default(now())
+  inschrijverId Int
+  Gebruiker Gebruiker @relation("Inschrijvingen", fields: [gebruikerId], references: [id])
+  IngeschrevenDoor Gebruiker @relation("HeeftIngeschreven", fields: [inschrijverId], references: [id])
+  Toets Toets? @relation(fields: [toetsId], references: [id])
+}
