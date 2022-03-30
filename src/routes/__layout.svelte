@@ -2,7 +2,7 @@
 	<ul class="navbar-list">
 		<li class="navbar-item"><a class="navbar-link" href="register">Inschrijven</a></li>
 		<li class="navbar-item"><a class="navbar-link" href="registrations">Inschrijvingen</a></li>
-		<li class="navbar-item"><a class="navbar-link" href="#period">Periodes</a></li>
+		<li class="navbar-item"><a class="navbar-link" href="periodes">Periodes</a></li>
 		<li class="navbar-item"><a class="navbar-link" href="toetsen">Toetsen</a></li>
 		<li class="navbar-item"><a class="navbar-link" href="#users">Leerlingen</a></li>
 	</ul>
