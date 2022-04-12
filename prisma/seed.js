@@ -52,28 +52,51 @@ async function main() {
     create: {
       id: 1,
       omschrijving: '2021/2022',
-      Periodes: {
-        create: [{
-          id: 1,
-          periode: '1',
-          inschrijvenVanaf: new Date(now.getFullYear(), now.getMonth() - 2, 1),
-          inschrijvenTm: new Date(now.getFullYear(), now.getMonth() - 1, 0),
-        },
-        {
-          id: 2,
-          periode: '2',
-          inschrijvenVanaf: new Date(now.getFullYear(), now.getMonth() - 1, 1),
-          inschrijvenTm: new Date(now.getFullYear(), now.getMonth(), 0),
-        },
-        {
-          id: 3,
-          periode: '3',
-          inschrijvenVanaf: new Date(now.getFullYear(), now.getMonth(), 1),
-          inschrijvenTm: new Date(now.getFullYear(), now.getMonth() + 1, 0),
-        }],
-      },
     },
   });
+
+  await prisma.periode.upsert({
+    where: { id: 1 },
+    create: {
+      periode: '1',
+      inschrijvenVanaf: new Date(now.getFullYear(), 0, 1),
+      inschrijvenTm: new Date(now.getFullYear(), 4, 0),
+      Schooljaar: { connect: { id: 1 } },
+    },
+    update: {
+      inschrijvenVanaf: new Date(now.getFullYear(), 0, 1),
+      inschrijvenTm: new Date(now.getFullYear(), 4, 0),
+    },
+  });
+
+  await prisma.periode.upsert({
+    where: { id: 2 },
+    create: {
+      periode: '2',
+      inschrijvenVanaf: new Date(now.getFullYear(), 4, 1),
+      inschrijvenTm: new Date(now.getFullYear(), 8, 0),
+      Schooljaar: { connect: { id: 1 } },
+    },
+    update: {
+      inschrijvenVanaf: new Date(now.getFullYear(), 4, 1),
+      inschrijvenTm: new Date(now.getFullYear(), 8, 0),
+    },
+  });
+
+  await prisma.periode.upsert({
+    where: { id: 3 },
+    create: {
+      periode: '3',
+      inschrijvenVanaf: new Date(now.getFullYear(), 8, 1),
+      inschrijvenTm: new Date(now.getFullYear(), 11, 31),
+      Schooljaar: { connect: { id: 1 } },
+    },
+    update: {
+      inschrijvenVanaf: new Date(now.getFullYear(), 8, 1),
+      inschrijvenTm: new Date(now.getFullYear(), 11, 31),
+    },
+  });
+
 
   // await prisma.toets.upsert({
   //   where: { periodeId_toetscode: { periodeId: 3, toetscode: "v ak t2" } },
