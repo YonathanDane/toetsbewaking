@@ -1,3 +1,6 @@
+## Tips
+https://gist.github.com/aaimaai/2f688321e438730c8f1dec1b33744592
+
 ## Setup
 ```bash
 npm install
